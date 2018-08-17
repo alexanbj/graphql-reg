@@ -1,0 +1,30 @@
+{
+  "name": "graphql-api",
+  "version": "1.0.0",
+  "description": "GraphQL endpoint for UBW",
+  "author": "Alexander Bjerkan <alb@knowit.no>",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "start": "node build/server.js",
+    "build": "yarn run build-ts",
+    "build-ts": "tsc",
+    "lint": "tslint -c tslint.json 'src/**/*.ts'",
+    "format": "prettier --write \"src/**/*.ts\"",
+    "format:check": "prettier --list-different \"src/**/*.ts\"",
+    "dev": "concurrently -k -p \"[{name}]\" -n \"TypeScript,Node\" -c \"yellow.bold,cyan.bold\"  \"tsc -w\" \"nodemon build/server.js\""
+  },
+  "dependencies": {
+    "apollo-datasource-rest": "0.1.4",
+    "apollo-server": "2.0.4",
+    "graphql": "0.13.2"
+  },
+  "devDependencies": {
+    "@types/graphql": "0.13.4",
+    "concurrently": "3.6.1",
+    "nodemon": "1.18.3",
+    "prettier": "1.14.2",
+    "tslint": "5.11.0",
+    "typescript": "3.0.1"
+  }
+}
