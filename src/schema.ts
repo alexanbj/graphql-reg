@@ -9,6 +9,24 @@ const typeDefs = gql`
     description: String!
   }
 
+  enum Status {
+    # Open I think
+    P
+    # Closed I think
+    T
+    # Future timesheets...
+    NEW
+  }
+
+  type Timesheet {
+    id: ID!
+    dateFrom: DateTime!
+    dateTo: DateTime!
+    details: [Detail!]!
+    workSchedule: [WorkSchedule!]!
+    status: Status!
+  }
+
   type User {
     id: ID!
     userName: String!
@@ -20,11 +38,11 @@ const typeDefs = gql`
     vacation: Int!
   }
 
-  type HRMS {
+  type WorkSchedule {
     workingDay: Boolean!
     publicHoliday: Boolean!
     normalHours: Float!
-    transDate: DateTime!
+    date: DateTime!
   }
 
   type Fravar {
@@ -45,7 +63,8 @@ const typeDefs = gql`
     currentUser: User!
     balance: Balance!
     timecodes: [Fravar]
-    details: [Detail!]!
+    currentSheet: Timesheet!
+    #details: [Detail!]!
   }
 `;
 

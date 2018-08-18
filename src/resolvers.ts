@@ -14,12 +14,28 @@ export const resolvers = {
       return dataSources.timesheetAPI.getTimeCodes();
     },
 
-    async details(_: any, __: any, { dataSources }: Context) {
-      return dataSources.timesheetAPI.getDetails();
+    async currentSheet(_: any, __: any, { dataSources }: Context) {
+      return dataSources.timesheetAPI.getCurrentSheet();
     },
+
+    /*async details(_: any, __: any, { dataSources }: Context) {
+      return dataSources.timesheetAPI.getDetails();
+    },*/
 
     async currentUser(_: any, __: any, { dataSources }: Context) {
       return dataSources.userAPI.currentUser();
+    },
+  },
+
+  Timesheet: {
+    async details(source: any, __: any, { dataSources }: Context) {
+      return dataSources.timesheetAPI.getDetails(source.dateFrom);
+    },
+    async workSchedule(source: any, __: any, { dataSources }: Context) {
+      return dataSources.HRMSAPI.getWorkSchedule(
+        source.dateFrom,
+        source.dateTo
+      );
     },
   },
 };

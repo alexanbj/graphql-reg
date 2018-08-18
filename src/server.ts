@@ -3,6 +3,7 @@ import { Request } from 'express';
 
 import UBWAPI from './data/ubwAPI';
 import UserAPI from './data/userAPI';
+import HRMSAPI from './data/hrmsAPI';
 import TimesheetAPI from './data/timesheetAPI';
 import { resolvers } from './resolvers';
 import typeDefs from './schema';
@@ -25,6 +26,7 @@ const server = new ApolloServer({
     UBWAPI: new UBWAPI(),
     userAPI: new UserAPI(),
     timesheetAPI: new TimesheetAPI(),
+    HRMSAPI: new HRMSAPI(),
   }),
 });
 

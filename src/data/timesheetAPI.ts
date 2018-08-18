@@ -1,5 +1,6 @@
 import { RequestOptions, RESTDataSource } from 'apollo-datasource-rest';
 import { clientId } from '../config';
+import { dateAsString } from './utils';
 
 export default class TimesheetAPI extends RESTDataSource {
   public baseURL =
@@ -14,6 +15,20 @@ export default class TimesheetAPI extends RESTDataSource {
       flex: flexTime,
       vacation: vacationTime,
     };
+  }
+
+  public async getCurrentSheet() {
+    // Eg: 08-18-2018
+    const dateStr = dateAsString();
+    // I think this endpoint returns an array of the sheets inside the time period?
+    const result: Array<Timesheet> = await this.get(
+      `periods/${clientId}/ALB/TS/${dateStr}/${dateStr}`
+    );
+
+    return result.map(sheet => {
+      sheet.id = sheet.regPeriod;
+      return sheet;
+    })[0];
   }
 
   /**
@@ -44,9 +59,11 @@ export default class TimesheetAPI extends RESTDataSource {
     });
   }
 
-  public async getDetails() {
+  public async getDetails(fromDate: string) {
+    const dateStr = dateAsString(fromDate);
+
     const result: { data: { details: Array<Detail> } } = await this.get(
-      `timesheets/${clientId}/ALB/2018-08-13`
+      `timesheets/${clientId}/ALB/${dateStr}`
     );
 
     return result.data.details.map(detail => {
@@ -81,10 +98,19 @@ interface Balance {
   numberOfObjects: number;
 }
 
+interface Timesheet {
+  regPeriod: number;
+  dateFrom: string;
+  dateTo: string;
+  status: 'P' | 'T' | 'NEW'; // P is open, T is completed?
+}
+
 interface Detail {
   // Project id
   project: string;
   projectDescr: string; // Eg. NDLA - GDL Hoveprosjekt
+
+  tseGlDetailId: number;
 
   // Workorder id
   workOrder: string;
