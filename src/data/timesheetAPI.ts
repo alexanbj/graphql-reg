@@ -46,10 +46,24 @@ export default class TimesheetAPI extends RESTDataSource {
 
   public async getDetails() {
     const result: { data: { details: Array<Detail> } } = await this.get(
-      `timesheets/${clientId}/ALB/2018-08-06`
+      `timesheets/${clientId}/ALB/2018-08-13`
     );
 
-    return result.data.details;
+    return result.data.details.map(detail => {
+      // I have no fucking clue if the value here is actually an unique id
+      detail.id = detail.tseGlDetailId;
+
+      detail.project = {
+        id: detail.project,
+        description: detail.projectDescr,
+      };
+
+      detail.workOrder = {
+        id: detail.workOrder,
+        description: detail.workOrderDescr,
+      };
+      return detail;
+    });
   }
 
   protected willSendRequest(request: RequestOptions) {

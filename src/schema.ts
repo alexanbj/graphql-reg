@@ -7,7 +7,6 @@ const typeDefs = gql`
   type WorkTask {
     id: ID!
     description: String!
-    isProject: Boolean!
   }
 
   type User {
@@ -34,15 +33,16 @@ const typeDefs = gql`
   }
 
   type Detail {
-    project: ID!
-    projectDescr: String!
+    id: ID!
+    project: WorkTask!
+    workOrder: WorkTask!
     description: String!
     sum: Float!
   }
 
   type Query {
-    worktasks: [WorkTask]
-    currentUser: User
+    worktasks: [WorkTask!]!
+    currentUser: User!
     balance: Balance!
     timecodes: [Fravar]
     details: [Detail!]!
