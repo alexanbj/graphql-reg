@@ -1,11 +1,12 @@
 import { RequestOptions, RESTDataSource } from 'apollo-datasource-rest';
+import { clientId } from '../config';
 
 export default class TimesheetAPI extends RESTDataSource {
   public baseURL =
     'https://ubw.unit4cloud.com/se_kno_prod_web/api/pcb/timesheet/';
 
   public async balance() {
-    const result = await this.get('balance-summary/320/ALB');
+    const result = await this.get(`balance-summary/${clientId}/ALB`);
     const flexTime = result.find(b => b.name === 'Flex').numberOfObjects;
     const vacationTime = result.find(b => b.name === 'Ferie').numberOfObjects;
 
@@ -34,7 +35,7 @@ export default class TimesheetAPI extends RESTDataSource {
    */
   public async getTimeCodeThingy() {
     const result: { rows: Array<TimeCode> } = await this.get(
-      'timecodes/320/withoutglanalysis/ALB/2018-08-13/2018-08-19'
+      `timecodes/${clientId}/withoutglanalysis/ALB/2018-08-13/2018-08-19`
     );
 
     return result.rows.map((timecode: TimeCode) => {
@@ -45,7 +46,7 @@ export default class TimesheetAPI extends RESTDataSource {
 
   public async getDetails() {
     const result: { data: { details: Array<Detail> } } = await this.get(
-      'timesheets/320/ALB/2018-08-06'
+      `timesheets/${clientId}/ALB/2018-08-06`
     );
 
     return result.data.details;

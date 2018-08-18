@@ -1,11 +1,12 @@
 import { RequestOptions, RESTDataSource } from 'apollo-datasource-rest';
+import { clientId } from '../config';
 
 export default class UBWAPI extends RESTDataSource {
   public baseURL =
     'https://ubw.unit4cloud.com/se_kno_prod_web/api/pcb/project/worktasks/valuelist/';
 
   public async worktasks() {
-    const result = await this.get('/320/ALB/2018-08-13/2018-08-19', {
+    const result = await this.get(`/${clientId}/ALB/2018-08-13/2018-08-19`, {
       filter: 'gdl',
     });
 

@@ -17,9 +17,11 @@
   "dependencies": {
     "apollo-datasource-rest": "0.1.4",
     "apollo-server": "2.0.4",
+    "dotenv": "6.0.0",
     "graphql": "0.13.2"
   },
   "devDependencies": {
+    "@types/dotenv": "4.0.3",
     "@types/graphql": "0.13.4",
     "concurrently": "3.6.1",
     "core-js": "^2.5.7",
