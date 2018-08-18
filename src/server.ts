@@ -26,8 +26,8 @@ const server = new ApolloServer({
     UBWAPI: new UBWAPI(),
     userAPI: new UserAPI(),
     timesheetAPI: new TimesheetAPI(),
-    HRMSAPI: new HRMSAPI(),
-  }),
+    HRMSAPI: new HRMSAPI()
+  })
 });
 
 server.listen().then(({ url }: { url: string }) => {

@@ -7,7 +7,7 @@ export default class UBWAPI extends RESTDataSource {
 
   public async worktasks() {
     const result = await this.get(`/${clientId}/ALB/2018-08-13/2018-08-19`, {
-      filter: 'gdl',
+      filter: 'gdl'
     });
 
     return result.rows.map(wt => {

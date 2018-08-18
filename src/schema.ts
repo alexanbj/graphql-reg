@@ -55,6 +55,7 @@ const typeDefs = gql`
     project: WorkTask!
     workOrder: WorkTask!
     description: String!
+    values: [Float!]!
     sum: Float!
   }
 

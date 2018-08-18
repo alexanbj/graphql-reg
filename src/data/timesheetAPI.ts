@@ -1,4 +1,5 @@
 import { RequestOptions, RESTDataSource } from 'apollo-datasource-rest';
+import { differenceInDays } from 'date-fns';
 import { clientId } from '../config';
 import { dateAsString } from './utils';
 
@@ -13,7 +14,7 @@ export default class TimesheetAPI extends RESTDataSource {
 
     return {
       flex: flexTime,
-      vacation: vacationTime,
+      vacation: vacationTime
     };
   }
 
@@ -59,12 +60,14 @@ export default class TimesheetAPI extends RESTDataSource {
     });
   }
 
-  public async getDetails(fromDate: string) {
+  public async getDetails(fromDate: string, toDate: string) {
     const dateStr = dateAsString(fromDate);
 
     const result: { data: { details: Array<Detail> } } = await this.get(
       `timesheets/${clientId}/ALB/${dateStr}`
     );
+
+    const daysInSheet = Math.abs(differenceInDays(fromDate, toDate)) + 1;
 
     return result.data.details.map(detail => {
       // I have no fucking clue if the value here is actually an unique id
@@ -72,13 +75,19 @@ export default class TimesheetAPI extends RESTDataSource {
 
       detail.project = {
         id: detail.project,
-        description: detail.projectDescr,
+        description: detail.projectDescr
       };
 
       detail.workOrder = {
         id: detail.workOrder,
-        description: detail.workOrderDescr,
+        description: detail.workOrderDescr
       };
+
+      detail.values = Array.from(
+        new Array(daysInSheet),
+        (val, index) => detail[`regValue${index + 1}`]
+      );
+
       return detail;
     });
   }

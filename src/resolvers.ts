@@ -24,18 +24,21 @@ export const resolvers = {
 
     async currentUser(_: any, __: any, { dataSources }: Context) {
       return dataSources.userAPI.currentUser();
-    },
+    }
   },
 
   Timesheet: {
     async details(source: any, __: any, { dataSources }: Context) {
-      return dataSources.timesheetAPI.getDetails(source.dateFrom);
+      return dataSources.timesheetAPI.getDetails(
+        source.dateFrom,
+        source.dateTo
+      );
     },
     async workSchedule(source: any, __: any, { dataSources }: Context) {
       return dataSources.HRMSAPI.getWorkSchedule(
         source.dateFrom,
         source.dateTo
       );
-    },
-  },
+    }
+  }
 };
